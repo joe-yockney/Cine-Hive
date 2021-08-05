@@ -1,0 +1,155 @@
+﻿@model HiveData.ViewModels.PostFeedViewModel
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = Model.UserProfile.Firstname + "'s Profile";
+}
+
+@Scripts.Render("~/Content/Scripts/Post.js")
+
+<div class="container">
+    <div class="row profile">
+
+        @Html.Partial("ViewProfilePartial")
+
+        <div class="col-md-9">
+            @if (Model.UserProfile.Privacy == 1 || Model.UserProfile.Privacy == 2 && ViewBag.IsFriend)
+            {
+                var i = 0;
+                foreach (var item in Model.UserProfile.Posts.OrderByDescending(x => x.DatePosted))
+                {
+                    i += 1;
+                    var divId = "post" + i;
+                    if (item.Shared == true)
+                    {
+                        string authorName = Model.GetFirstName(item.AuthorPost.PostId) + " " + Model.GetLastName(item.AuthorPost.PostId);
+                        int authorPostID = item.AuthorPost.PostId;
+                        <div class="profile-content-pane">
+                            <div id="@(divId + "_1")" class="media">
+                                <div id="@(divId + "_2")" class="media-body">
+                                    <p>Shared a post from @authorName</p>
+                                    <div id="@(divId+"_3")" class="profile-content-pane-share">
+                                        <a class="pull-left" href="@Url.Action("ViewProfile", "Profile", new { id = Model.GetProfileId(authorPostID) })">
+                                            @if (Model.GetUserPicture(authorPostID) == null)
+                                            {
+                                                <img class="post-share-img circular-image" src="~/Content/Img/profile-image-placeholder.png" width="64" height="64" />
+                                            }
+                                            else
+                                            {
+                                                <img class="post-share-img circular-image" src="~/@Model.GetUserPicture(authorPostID)" width="64" height="64" />
+                                            }
+                                        </a>
+                                        <h4 class="media-heading">@authorName</h4>
+                                        <p>
+                                            @if ((bool)item.AuthorPost.hasFilmLink)
+                                            {
+                                                @Html.Raw(item.AuthorPost.PostContent)
+                                            }
+                                            else
+                                            {
+                                                @item.AuthorPost.PostContent
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (item.PictureChange == true)
+                    {
+                        <div id="picture-@item.PostId" class="profile-content-pane">
+                            <div id="@(divId + "_1")" class="media">
+                                <div id="@(divId + "_2")" class="media-body">
+                                    <p>@item.PostContent</p>
+                                    <div id="@(divId+"_3")" class="profile-content-pane-img">
+                                        <img src="@item.AuthorPicture" alt="User has removed this Image"  class="profile-content-img" onerror="togglediv()" />
+                                    </div>
+                                    @* JS inserts buttons here *@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                        function togglediv() {
+                            var x = document.getElementById("picture-@item.PostId");
+                            x.style.display = "none";
+
+                        }
+                        </script>
+
+
+                    }
+                    else // display standard post
+                    {
+                        <div class="profile-content-pane">
+                            <div id="@(divId + "_1")" class="media">
+                                <div id="@(divId + "_2")" class="media-body post-body">
+
+                                    <p id="@(divId+"_3")">
+                                        @if ((bool)item.hasFilmLink)
+                                        {@Html.Raw(item.PostContent) }
+                                    else
+                                    { @item.PostContent}
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    bool isUserPostOrAdmin = false;
+                    if (Model.IsUserPost(item.PostId) == true || User.IsInRole("AdminUser"))
+                    {
+                        isUserPostOrAdmin = true;
+                    }
+
+                    <script type="text/javascript">
+                        ReturnPost("@divId", @Model.GetProfileId(item.PostId), @item.PostId, "@Model.GetFirstName(item.PostId)",
+                        "@Model.GetLastName(item.PostId)", "@Model.GetUserPicture(item.PostId)", "@item.DatePosted",
+                        @Json.Encode(item.Popular), @Model.GetAwards(item.PostId), @Json.Encode(Model.AwardGiven(item.PostId)),
+                        @Json.Encode(isUserPostOrAdmin), @Json.Encode(item.Edited), @Json.Encode(item.Shared), @item.PostComments.Count);
+                    </script>
+
+                    <div id="Comments-@item.PostId"></div>
+
+                    <script>
+                        var rendered = false;
+                        $("#post-@item.PostId").click(function () {
+                            if (!rendered) {
+
+                                $.ajax({
+                                    url: '@Url.Action("IndexPostCommentsPartial", "Post")',
+                                    type: "GET",
+                                    data: {i_d: @item.PostId},
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (result) {
+                                    //alert("success");
+                                    $("#Comments-@item.PostId").html(result);
+                                    rendered = true;
+                                    },
+                                    error: function (xhr) {
+                                    alert("error");
+                                    }
+
+                                    });
+                            } else {
+                                $('#Comments-@item.PostId').html("");
+                                rendered = false;
+                            }
+                        });
+                    </script>
+
+
+                }
+            }
+            else
+            {
+                <div class="well bg-white">
+                    <p> Sorry, This user doesnt want to share their posts</p>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

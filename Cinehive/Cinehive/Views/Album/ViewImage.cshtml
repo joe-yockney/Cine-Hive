@@ -1,0 +1,49 @@
+﻿@model HiveData.Models.Image
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "View Image";
+}
+
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="album-sidebar">
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="javascript: history.go(-1)">
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                Go back
+                            </a>
+                        </li>
+                        @if (ViewBag.IsUser)
+                        {
+                            <li>
+                                <a href="@Url.Action("SetAsProfilePicture", "Album", new { Imagepath = Model.ImagePath })">
+                                    <i class="glyphicon glyphicon-picture"></i>
+                                    Set Profile Picture
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DeleteImageFromAlbum", "Album", new { id = Model.ImageId })">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                    Delete Image
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="view-image-container">
+            <img class="view-image" src="~/@Model.ImagePath" />
+        </div>
+
+    </div>
+    </div>
+
+
+

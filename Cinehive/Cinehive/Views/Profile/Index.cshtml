@@ -1,0 +1,180 @@
+﻿@model HiveData.ViewModels.ProfilePostsViewModel
+@using Microsoft.AspNet.Identity;
+@{ ViewBag.Title = "Your Profile";
+    var userid = User.Identity.GetUserId();
+}
+
+@Scripts.Render("~/Content/Scripts/Post.js")
+
+<div class="container">
+    <div class="row profile">
+
+        @Html.Partial("ProfilePartial")
+
+        <div class="col-md-9">
+            <div class="profile-content-input">
+                <h3>Create a Post.</h3>
+
+                @using (Html.BeginForm("Create", "Post", FormMethod.Post, new { name = "createPost", onsubmit = "return validateForm()" }))
+                {
+                    <input id="postInput" class="post-submit" type="text" name="input" maxlength="280" placeholder="Say something.." />
+                    <input type="hidden" name="location" value="profile" />
+                    @*<div class="form-group">
+                        <textarea id="postInput" class="post-submit" name="input" maxlength="280" placeholder="Say something.."></textarea>
+                    </div>*@
+                    <button class="btn btn-primary post-button" type="submit">
+                        <span>Post &nbsp;</span>
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </button>}
+                <div id="remaining-chars" class="text-right counter-margin">280 characters remaining</div>
+                <button onclick="toggleHelp()">How to post</button>
+            </div>
+            <div style="display:none" id="helpme" class="trending-content-tooltip">
+                <h3>How to post the CineHive way</h3>
+                <p>
+                    To tag a movie in a post and get everyone talking about it all you have to do is add a '#' followed by the movie title with capitalised
+                    letters to seperate the words. For example '#MortalKombat'. You can also specify the year of the movie to make the post more accurate, for
+                    example '#PaulBlart/2009'
+                </p>
+            </div>
+        </div>
+
+        <script>
+            function toggleHelp() {
+                var x = document.getElementById("helpme");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        </script>
+
+
+
+
+        <div class="col-md-9">
+            @{ var i = 0; }
+            @foreach (var item in Model.Posts)
+            {
+                i += 1;
+                var divId = "post" + i;
+                if (item.Shared == true)
+                {
+                    string authorName = Model.GetFirstName(item.AuthorPost.PostId) + " " + Model.GetLastName(item.AuthorPost.PostId);
+                    int authorPostID = item.AuthorPost.PostId;
+                    <div class="profile-content-pane">
+                        <div id="@(divId + "_1")" class="media">
+                            <div id="@(divId + "_2")" class="media-body">
+                                <p>Shared a post from @authorName</p>
+                                <div id="@(divId+"_3")" class="profile-content-pane-share">
+                                    <a class="pull-left" href="@Url.Action("ViewProfile", "Profile", new { id = Model.GetProfileId(authorPostID) })">
+                                        @if (Model.GetUserPicture(authorPostID) == null)
+                                        {
+                                            <img class="post-share-img circular-image" src="~/Content/Img/profile-image-placeholder.png" width="64" height="64" />
+                                        }
+                                        else
+                                        {
+                                            <img class="post-share-img circular-image" src="~/@Model.GetUserPicture(authorPostID)" width="64" height="64" />
+                                        }
+                                    </a>
+                                    <h4 class="media-heading">@authorName</h4>
+                                    <p>
+                                        @if ((bool)item.AuthorPost.hasFilmLink)
+                                        {@Html.Raw(item.AuthorPost.PostContent) }
+                                    else
+                                    { @item.AuthorPost.PostContent}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if (item.PictureChange == true)
+                {
+                    <div id="picture-@item.PostId" class="profile-content-pane">
+                        <div id="@(divId + "_1")" class="media">
+                            <div id="@(divId + "_2")" class="media-body">
+                                <p>@item.PostContent</p>
+                                <div id="@(divId+"_3")" class="profile-content-pane-img">
+                                    <img src="@item.AuthorPicture" alt="User has removed this Image" class="profile-content-img" onerror="togglediv()" />
+                                </div>
+                                @* JS inserts buttons here *@
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function togglediv() {
+                            var x = document.getElementById("picture-@item.PostId");
+                            x.style.display = "none";
+
+                        }
+                    </script>
+
+                }
+                else // display standard post
+                {
+                    <div class="profile-content-pane">
+                        <div id="@(divId + "_1")" class="media">
+                            <div id="@(divId + "_2")" class="media-body post-body">
+
+                                <p id="@(divId+"_3")">
+                                    @if ((bool)item.hasFilmLink)
+                                    {@Html.Raw(item.PostContent) }
+                                else
+                                { @item.PostContent}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+                // all posts here belong to User
+                bool isUserPostOrAdmin = true;
+
+                <script type="text/javascript">
+                ReturnPost("@divId", "@Model.userProfile.ProfileId", @item.PostId, "@Model.userProfile.Firstname",
+                    "@Model.userProfile.Lastname", "@Model.userProfile.ImagePath", "@item.DatePosted", @Json.Encode(item.Popular),
+                    @Model.GetAwards(item.PostId), @Json.Encode(Model.AwardGiven(item.PostId)), @Json.Encode(isUserPostOrAdmin),
+                    @Json.Encode(item.Edited), @Json.Encode(item.Shared), @item.PostComments.Count);
+                </script>
+
+                <div id="Comments-@item.PostId"></div>
+
+                <script>
+                        var rendered = false;
+                        $("#post-@item.PostId").click(function () {
+                            if (!rendered) {
+
+                                $.ajax({
+                                    url: '@Url.Action("IndexPostCommentsPartial", "Post")',
+                                    type: "GET",
+                                    data: {i_d: @item.PostId},
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (result) {
+                                    //alert("success");
+                                    $("#Comments-@item.PostId").html(result);
+                                    rendered = true;
+                                    },
+                                    error: function (xhr) {
+                                    alert("error");
+                                    }
+
+                                    });
+                            } else {
+                                $('#Comments-@item.PostId').html("");
+                                rendered = false;
+                            }
+                        });
+                </script>
+            }
+
+        </div>
+
+
+    </div>
+</div>
+
+@Scripts.Render("~/Content/Scripts/CharCounter.js")

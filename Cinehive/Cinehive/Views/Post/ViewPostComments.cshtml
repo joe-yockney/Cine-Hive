@@ -1,0 +1,162 @@
+﻿@model HiveData.ViewModels.PostCommentUserViewModel
+@{
+    ViewBag.Title = "ViewPostComments";
+    int id = 0;
+}
+
+@Scripts.Render("~/Content/Scripts/Post.js")
+
+<div class="container">
+    @if (ViewBag.AlertMessage != null)
+    {
+        <div class="well bg-white">
+            @ViewBag.AlertMessage
+        </div>
+    }
+<div class="row">
+    <div class="comment-post">
+        @{
+            bool canShare = true;
+            var divId = "post" + 1;
+            var post = Model.Post;
+        }
+        @if (Model.Post.Shared == true)
+        {
+            canShare = false;
+            int authorPostID = post.AuthorPost.PostId;
+            string authorName = Model.GetPostFirstName(authorPostID) + " " + Model.GetPostLastName(authorPostID);
+
+            <div class="profile-content-pane">
+                <div id="@(divId + "_1")" class="media">
+                    <div id="@(divId + "_2")" class="media-body">
+                        <p>Shared a post from @authorName</p>
+                        <div id="@(divId + "_3")" class="profile-content-pane-share">
+                            <a class="pull-left" href="@Url.Action("ViewProfile", "Profile", new { id = Model.GetProfileId(authorPostID) })">
+
+                                @if (Model.GetSharedUserPicture(authorPostID) == null)
+                                {
+                                    <img class="post-share-img circular-image" src="~/Content/Img/profile-image-placeholder.png" width="64" height="64" />
+                                }
+                                else
+                                {
+                                    <img class="post-share-img circular-image" src="~/@Model.GetSharedUserPicture(authorPostID)" width="64" height="64" />
+                                }
+                            </a>
+                            <h4 class="media-heading">@authorName</h4>
+                            <p>
+                                @if ((bool)post.AuthorPost.hasFilmLink)
+                                {@Html.Raw(post.AuthorPost.PostContent) }
+                                else
+                                { @post.AuthorPost.PostContent}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (post.PictureChange == true)
+        {
+            <div class="profile-content-pane">
+                <div id="@(divId + "_1")" class="media">
+                    <div id="@(divId + "_2")" class="media-body">
+                        <p>@post.PostContent</p>
+                        <div id="@(divId + "_3")" class="profile-content-pane-img">
+                            <img class="profile-content-img" src="/@Url.Content(@post.AuthorPicture)"/>
+                        </div>
+                        @* JS inserts buttons here *@
+                    </div>
+                </div>
+            </div>
+        }
+        else // display standard post
+        {
+            <div class="profile-content-pane">
+                <div id="@(divId + "_1")" class="media">
+                    <div id="@(divId + "_2")" class="media-body post-body">
+
+                        <p id="@(divId + "_3")">
+                            @if ((bool)post.hasFilmLink)
+                            {@Html.Raw(post.PostContent) }
+                            else
+                            { @post.PostContent}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+        @{
+            bool isUserPostOrAdmin = false;
+            if (Model.IsUserPost(id = post.PostId) == true || User.IsInRole("AdminUser"))
+            {
+                isUserPostOrAdmin = true;
+            }
+        }
+
+    <script type="text/javascript">          
+        ViewCommentsPost("@divId", @Model.UserProfile.ProfileId, @post.PostId, "@Model.UserProfile.Firstname",
+            "@Model.UserProfile.Lastname", "@Model.UserProfile.ImagePath", "@post.DatePosted",
+            @Json.Encode(post.Popular), @Model.GetAwards(post.PostId), @Json.Encode(Model.AwardGiven(post.PostId)),
+            @Json.Encode(isUserPostOrAdmin), @Json.Encode(post.Edited), @Json.Encode(canShare));
+    </script>
+
+    </div>
+
+</div>
+
+
+
+<div class="row">
+    <div class="addComment">
+        <div class="addComment-body">
+            <h4 class="media-heading-comment">Comments.</h4>
+            @using (Html.BeginForm("CreateDirect", "Comment", new { id = Model.Post.PostId }, FormMethod.Post))
+            {
+                <input id="postInput" class="comment-submit" type="text" name="input" maxlength="280" placeholder="Say something.." />
+
+                <button class="btn btn-primary post-button" type="submit">
+                    <span>Post &nbsp;</span>
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+            }
+        </div>
+    </div>
+    <div class="commentsList">
+        @{ int i = 0; }
+        @foreach (var item in Model.CommentList.OrderByDescending(c => c.DateCommented))
+        {
+            
+            i += 1;
+            var commDivId = "comm" + i;
+            
+            <div class="comment-pane">
+                <div id="@(commDivId + "_1")" class="media">
+                    <div id="@(commDivId + "_2")" class="media-body post-body">
+
+                        <p id="@(commDivId + "_3")">
+                           @item.CommentContent
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            
+                bool isUserCommentOrAdmin = false;
+                if (Model.IsUserComment(id = item.CommentId) == true || User.IsInRole("AdminUser"))
+                {
+                    isUserCommentOrAdmin = true;
+                }
+           
+
+            <script type="text/javascript">
+                ReturnComment("@commDivId", @Model.GetCommProfileId(item.CommentId), @item.CommentId, @post.PostId, "@Model.GetFirstName(item.CommentId)",
+                "@Model.GetLastName(item.CommentId)", "@Model.GetUserPicture(item.CommentId)", "@item.DateCommented",
+                @Model.GetCommentAwards(item.CommentId), @Json.Encode(Model.CommAwardGiven(item.CommentId)), @Json.Encode(isUserCommentOrAdmin),
+                @Json.Encode(item.Edited));
+            </script>
+
+        }
+    </div>
+    </div>
+</div>

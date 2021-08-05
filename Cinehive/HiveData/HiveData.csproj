@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{26C338BB-EBDD-45CF-87EB-0AF64258DA24}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HiveData</RootNamespace>
+    <AssemblyName>HiveData</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.6.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.6.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.6.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Common, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.Services.Client.16.170.0\lib\net462\Microsoft.TeamFoundation.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Services.Common, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.Services.Client.16.170.0\lib\net462\Microsoft.VisualStudio.Services.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Services.WebApi, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.Services.Client.16.170.0\lib\net462\Microsoft.VisualStudio.Services.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.6.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAO\AdminDAO.cs" />
+    <Compile Include="DAO\AlbumDAO.cs" />
+    <Compile Include="DAO\CommentDAO.cs" />
+    <Compile Include="DAO\FriendDAO.cs" />
+    <Compile Include="DAO\NotificationDAO.cs" />
+    <Compile Include="DAO\PostDAO.cs" />
+    <Compile Include="DAO\ProfileDAO.cs" />
+    <Compile Include="DAO\SearchDAO.cs" />
+    <Compile Include="IDAO\IAdminDAO.cs" />
+    <Compile Include="IDAO\IAlbumDAO.cs" />
+    <Compile Include="IDAO\ICommentDAO.cs" />
+    <Compile Include="IDAO\IFriendDAO.cs" />
+    <Compile Include="IDAO\INotificationDAO.cs" />
+    <Compile Include="IDAO\IPostDAO.cs" />
+    <Compile Include="IDAO\IProfileDAO.cs" />
+    <Compile Include="IDAO\ISearchDAO.cs" />
+    <Compile Include="Migrations\202103031708562_initial.cs" />
+    <Compile Include="Migrations\202103031708562_initial.Designer.cs">
+      <DependentUpon>202103031708562_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103091443016_imageadd.cs" />
+    <Compile Include="Migrations\202103091443016_imageadd.Designer.cs">
+      <DependentUpon>202103091443016_imageadd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103091712038_stringlist.cs" />
+    <Compile Include="Migrations\202103091712038_stringlist.Designer.cs">
+      <DependentUpon>202103091712038_stringlist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103091722369_nahman.cs" />
+    <Compile Include="Migrations\202103091722369_nahman.Designer.cs">
+      <DependentUpon>202103091722369_nahman.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103102324377_AddFilmGenre.cs" />
+    <Compile Include="Migrations\202103102324377_AddFilmGenre.Designer.cs">
+      <DependentUpon>202103102324377_AddFilmGenre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103142039246_profiletopost.cs" />
+    <Compile Include="Migrations\202103142039246_profiletopost.Designer.cs">
+      <DependentUpon>202103142039246_profiletopost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103150022358_addlike.cs" />
+    <Compile Include="Migrations\202103150022358_addlike.Designer.cs">
+      <DependentUpon>202103150022358_addlike.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103191738327_MatchedNewClassDiagram.cs" />
+    <Compile Include="Migrations\202103191738327_MatchedNewClassDiagram.Designer.cs">
+      <DependentUpon>202103191738327_MatchedNewClassDiagram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103211349018_addingalbumcollection.cs" />
+    <Compile Include="Migrations\202103211349018_addingalbumcollection.Designer.cs">
+      <DependentUpon>202103211349018_addingalbumcollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103221725565_addfilenametoimage.cs" />
+    <Compile Include="Migrations\202103221725565_addfilenametoimage.Designer.cs">
+      <DependentUpon>202103221725565_addfilenametoimage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103231115525_ApiIdFix.cs" />
+    <Compile Include="Migrations\202103231115525_ApiIdFix.Designer.cs">
+      <DependentUpon>202103231115525_ApiIdFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103231600292_commentcollection.cs" />
+    <Compile Include="Migrations\202103231600292_commentcollection.Designer.cs">
+      <DependentUpon>202103231600292_commentcollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103241302311_addeditedtocommentandpost.cs" />
+    <Compile Include="Migrations\202103241302311_addeditedtocommentandpost.Designer.cs">
+      <DependentUpon>202103241302311_addeditedtocommentandpost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103251343070_addedtrendingtopost.cs" />
+    <Compile Include="Migrations\202103251343070_addedtrendingtopost.Designer.cs">
+      <DependentUpon>202103251343070_addedtrendingtopost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103251614351_TrendingtoPopular.cs" />
+    <Compile Include="Migrations\202103251614351_TrendingtoPopular.Designer.cs">
+      <DependentUpon>202103251614351_TrendingtoPopular.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104021946414_notificationModelUpdate.cs" />
+    <Compile Include="Migrations\202104021946414_notificationModelUpdate.Designer.cs">
+      <DependentUpon>202104021946414_notificationModelUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104081616067_notificationModelV2.cs" />
+    <Compile Include="Migrations\202104081616067_notificationModelV2.Designer.cs">
+      <DependentUpon>202104081616067_notificationModelV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104081619093_notificationModelChange.cs" />
+    <Compile Include="Migrations\202104081619093_notificationModelChange.Designer.cs">
+      <DependentUpon>202104081619093_notificationModelChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104081709091_PostModelUpdate.cs" />
+    <Compile Include="Migrations\202104081709091_PostModelUpdate.Designer.cs">
+      <DependentUpon>202104081709091_PostModelUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104082208432_HasFilmLinkBoolFix.cs" />
+    <Compile Include="Migrations\202104082208432_HasFilmLinkBoolFix.Designer.cs">
+      <DependentUpon>202104082208432_HasFilmLinkBoolFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104121624002_privacyint.cs" />
+    <Compile Include="Migrations\202104121624002_privacyint.Designer.cs">
+      <DependentUpon>202104121624002_privacyint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104131409350_moviesAndRatings.cs" />
+    <Compile Include="Migrations\202104131409350_moviesAndRatings.Designer.cs">
+      <DependentUpon>202104131409350_moviesAndRatings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104131826064_moviesModeltweak.cs" />
+    <Compile Include="Migrations\202104131826064_moviesModeltweak.Designer.cs">
+      <DependentUpon>202104131826064_moviesModeltweak.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104132219212_sharepost.cs" />
+    <Compile Include="Migrations\202104132219212_sharepost.Designer.cs">
+      <DependentUpon>202104132219212_sharepost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104132233213_authortopost.cs" />
+    <Compile Include="Migrations\202104132233213_authortopost.Designer.cs">
+      <DependentUpon>202104132233213_authortopost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104141313592_AddImg.cs" />
+    <Compile Include="Migrations\202104141313592_AddImg.Designer.cs">
+      <DependentUpon>202104141313592_AddImg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104141905325_RemoveImg.cs" />
+    <Compile Include="Migrations\202104141905325_RemoveImg.Designer.cs">
+      <DependentUpon>202104141905325_RemoveImg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104142030029_postforprofilepicchange.cs" />
+    <Compile Include="Migrations\202104142030029_postforprofilepicchange.Designer.cs">
+      <DependentUpon>202104142030029_postforprofilepicchange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104191016499_Originalpost.cs" />
+    <Compile Include="Migrations\202104191016499_Originalpost.Designer.cs">
+      <DependentUpon>202104191016499_Originalpost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104191119424_undoOfOriginalPost.cs" />
+    <Compile Include="Migrations\202104191119424_undoOfOriginalPost.Designer.cs">
+      <DependentUpon>202104191119424_undoOfOriginalPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104191629510_AuthorPost2.cs" />
+    <Compile Include="Migrations\202104191629510_AuthorPost2.Designer.cs">
+      <DependentUpon>202104191629510_AuthorPost2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104210935492_AwardPost.cs" />
+    <Compile Include="Migrations\202104210935492_AwardPost.Designer.cs">
+      <DependentUpon>202104210935492_AwardPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104211024066_UnmapAwardsOnPost.cs" />
+    <Compile Include="Migrations\202104211024066_UnmapAwardsOnPost.Designer.cs">
+      <DependentUpon>202104211024066_UnmapAwardsOnPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104211454388_trending.cs" />
+    <Compile Include="Migrations\202104211454388_trending.Designer.cs">
+      <DependentUpon>202104211454388_trending.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104231646141_authorpp.cs" />
+    <Compile Include="Migrations\202104231646141_authorpp.Designer.cs">
+      <DependentUpon>202104231646141_authorpp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104241001021_postComment.cs" />
+    <Compile Include="Migrations\202104241001021_postComment.designer.cs">
+      <DependentUpon>202104241001021_postComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Album.cs" />
+    <Compile Include="Models\Award.cs" />
+    <Compile Include="Models\FaveGenre.cs" />
+    <Compile Include="Models\FriendRequest.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Rating.cs" />
+    <Compile Include="Repository\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostComment.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AlbumImageViewModel.cs" />
+    <Compile Include="ViewModels\ExpandResultsVM.cs" />
+    <Compile Include="ViewModels\FilteredSearchVM.cs" />
+    <Compile Include="ViewModels\MovieHubViewModel.cs" />
+    <Compile Include="ViewModels\PostCommentUserViewModel.cs" />
+    <Compile Include="ViewModels\PostFeedViewModel.cs" />
+    <Compile Include="ViewModels\ProfilePostsViewModel.cs" />
+    <Compile Include="ViewModels\SearchResultsVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202103031708562_initial.resx">
+      <DependentUpon>202103031708562_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103091443016_imageadd.resx">
+      <DependentUpon>202103091443016_imageadd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103091712038_stringlist.resx">
+      <DependentUpon>202103091712038_stringlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103091722369_nahman.resx">
+      <DependentUpon>202103091722369_nahman.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103102324377_AddFilmGenre.resx">
+      <DependentUpon>202103102324377_AddFilmGenre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103142039246_profiletopost.resx">
+      <DependentUpon>202103142039246_profiletopost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103150022358_addlike.resx">
+      <DependentUpon>202103150022358_addlike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103191738327_MatchedNewClassDiagram.resx">
+      <DependentUpon>202103191738327_MatchedNewClassDiagram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103211349018_addingalbumcollection.resx">
+      <DependentUpon>202103211349018_addingalbumcollection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103221725565_addfilenametoimage.resx">
+      <DependentUpon>202103221725565_addfilenametoimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103231115525_ApiIdFix.resx">
+      <DependentUpon>202103231115525_ApiIdFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103231600292_commentcollection.resx">
+      <DependentUpon>202103231600292_commentcollection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103241302311_addeditedtocommentandpost.resx">
+      <DependentUpon>202103241302311_addeditedtocommentandpost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103251343070_addedtrendingtopost.resx">
+      <DependentUpon>202103251343070_addedtrendingtopost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103251614351_TrendingtoPopular.resx">
+      <DependentUpon>202103251614351_TrendingtoPopular.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104021946414_notificationModelUpdate.resx">
+      <DependentUpon>202104021946414_notificationModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104081616067_notificationModelV2.resx">
+      <DependentUpon>202104081616067_notificationModelV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104081619093_notificationModelChange.resx">
+      <DependentUpon>202104081619093_notificationModelChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104081709091_PostModelUpdate.resx">
+      <DependentUpon>202104081709091_PostModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104082208432_HasFilmLinkBoolFix.resx">
+      <DependentUpon>202104082208432_HasFilmLinkBoolFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104121624002_privacyint.resx">
+      <DependentUpon>202104121624002_privacyint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104131409350_moviesAndRatings.resx">
+      <DependentUpon>202104131409350_moviesAndRatings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104131826064_moviesModeltweak.resx">
+      <DependentUpon>202104131826064_moviesModeltweak.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104132219212_sharepost.resx">
+      <DependentUpon>202104132219212_sharepost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104132233213_authortopost.resx">
+      <DependentUpon>202104132233213_authortopost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104141313592_AddImg.resx">
+      <DependentUpon>202104141313592_AddImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104141905325_RemoveImg.resx">
+      <DependentUpon>202104141905325_RemoveImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104142030029_postforprofilepicchange.resx">
+      <DependentUpon>202104142030029_postforprofilepicchange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104191016499_Originalpost.resx">
+      <DependentUpon>202104191016499_Originalpost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104191119424_undoOfOriginalPost.resx">
+      <DependentUpon>202104191119424_undoOfOriginalPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104191629510_AuthorPost2.resx">
+      <DependentUpon>202104191629510_AuthorPost2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104210935492_AwardPost.resx">
+      <DependentUpon>202104210935492_AwardPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104211024066_UnmapAwardsOnPost.resx">
+      <DependentUpon>202104211024066_UnmapAwardsOnPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104211454388_trending.resx">
+      <DependentUpon>202104211454388_trending.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104231646141_authorpp.resx">
+      <DependentUpon>202104231646141_authorpp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104241001021_postComment.resx">
+      <DependentUpon>202104241001021_postComment.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>
